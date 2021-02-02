@@ -6,7 +6,7 @@ BERTHAUD Baptiste  p2009410
 
 BESSON Florian p1504727
 
-L'objectif de ce projet était d'implémenter, à partir des données issues du serveur c, un programme permettant de récupérer les catégories et les paramètres associés à chaque tortue.
+L'objectif de ce projet était d'implémenter, à partir des données issues du serveur *tortues.ecoquery.os.univ-lyon1.fr*, un programme permettant de récupérer les catégories et les paramètres associés à chaque tortue.
 
 Pour cela, nous avons choisi de travailler sur **Python**, pour l'acquisition et le traitement des données.
 
@@ -44,7 +44,7 @@ L'objectif de celui-ci était de créer un nouveau dictionnaire de données, *to
 Enfi, on opère la phase d'attribution des catégories pour chaque tortue. 
 En effet, 4 classes existent : les tortues *fatiguées*, *cycliques*, *régulières* et *distraites*. 
 
-La définition des tortues *distraites* nous oblige àattribuer cette catégorie par élimination par rapport aux 3 autres.
+La définition des tortues *distraites* nous oblige à attribuer cette catégorie par élimination par rapport aux 3 autres.
 
 On commence par les tortues *régulières*, qui sont les plus faciles à détecter. En effet, celles-ci on une vitesse constante. On implémente donc une fonction *est_reguliere*, qui retourne *False* si deux vitesses pour 2 tops successifs sont différents, et la vitesse (constante) sinon.
 
