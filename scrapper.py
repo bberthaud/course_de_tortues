@@ -2,13 +2,19 @@ from bs4 import BeautifulSoup
 import urllib.request
 import json
 import time
+import argparse
 
-nb_tops = 50
-course = 'small'
+"""exemple de requete:
+python scrapper.py -c tiny -n 201
+"""
+parse = argparse.ArgumentParser()
+parse.add_argument('-c', '--course', type=str, help="taille de la course (tiny, small, medium, large)")
+parse.add_argument('-n', '--nb_tops', type=int, default=201, help="nombre de tops")
+args = parse.parse_args()
 
-urlpage = "http://tortues.ecoquery.os.univ-lyon1.fr:8080/" + course
+urlpage = "http://tortues.ecoquery.os.univ-lyon1.fr:8080/" + args.course
 dict_list = []
-for i in range(nb_tops):
+for i in range(args.nb_tops):
     start = time.time()
     # query the website and return the html to the variable 'page'
     page = urllib.request.urlopen(urlpage)
@@ -16,11 +22,9 @@ for i in range(nb_tops):
     soup = BeautifulSoup(page, 'html.parser')
     dict_soup = eval(soup.string)
     dict_list.append(dict_soup)
-    end = time.time()
-    t = 3 - (end-start)
-    time.sleep(t)
+    time.sleep(3 - (time.time()-start))
     
-filename = 'data_{}.json'.format(course)
+filename = 'data_{}.json'.format(args.course)
 with open(filename, 'w') as json_file:
     json.dump(dict_list, json_file)
         

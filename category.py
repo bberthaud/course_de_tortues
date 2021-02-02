@@ -1,5 +1,6 @@
 import parser
 from collections import Counter
+import argparse
 
 
 def est_reguliere(vitesses):
@@ -12,21 +13,21 @@ def est_reguliere(vitesses):
 
 def est_fatiguee(vitesses, acc):
     counter = Counter(acc)
-    main_acc = counter.most_common(1)[0]
-    freq = main_acc[1]/float(len(acc))
-    if freq > 0.75:
-        return {'v_initial': max(vitesses), 'rythme_croissance': main_acc[0]}
+    if 2 <= len(counter) <= 4:
+        main_acc = counter.most_common(2)
+        if main_acc[0][0] == -main_acc[1][0]:
+            return {'v_initial': max(vitesses), 'rythme_croissance': abs(main_acc[0][0])}
 
 def est_cyclique(vitesses):
-    cycle = [vitesses[0]]
-    for i in range(1,len(vitesses)):
+    cycle = [vitesses[0], vitesses[1]]
+    for i in range(2,len(vitesses)):
         if vitesses[i] != cycle[0]:
             cycle.append(vitesses[i])
         else:
             for j in range(1,len(cycle)):
-                if i+j >= len(vitesses)-1 or vitesses[i+j] != cycle[j]:
+                if i+j >= len(vitesses) or vitesses[i+j] != cycle[j]:
                     return
-            return {'cycle': cycle}
+            return {'cycle': cycle, 'fenetre': len(cycle)}
 
 def distraite(vitesses):
     v_min = min(vitesses)
@@ -47,20 +48,34 @@ def categorie(tortue):
     else:
         return 'distraite', distraite(vitesses)
 
-def main():
-    course = 'small'
+def main(course, nb_tops):
     tortues = parser.tortues_attr(course)
+    parser.verification_top(tortues, nb_tops)
     categories = []
     for i in tortues:
         tortue = tortues[i]
         cat = categorie(tortue)
+        categories.append(cat)
 
         # print(tortue['top'])
-        # print(tortues['vitesse'])
-        # print(tortues['acc'])
-        categories.append(cat[0])
+        # print(tortue['vitesse'])
+        # print(tortue['acc'])
         # print(cat)
-    print(Counter(categories))
+
+    max_fenetre = max([cat[1]['fenetre'] for cat in categories if cat[0] == 'cyclique'])
+    print(max_fenetre)
+
+    # stats repartition
+    stats = Counter([cat[0] for cat in categories])
+    print(stats)
 
 
-main()
+if __name__ == '__main__':
+    """exemple de requete:
+    python category.py -c tiny -n 201
+    """
+    parse = argparse.ArgumentParser()
+    parse.add_argument('-c', '--course', type=str, help="taille de la course (tiny, small, medium, large)")
+    parse.add_argument('-n', '--nb_tops', type=int, default=201, help="nombre de tops")
+    args = parse.parse_args()
+    main(args.course, args.nb_tops)
