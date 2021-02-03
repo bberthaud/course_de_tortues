@@ -1,7 +1,10 @@
 #!/bin/bash
 
-course='tiny'
-nb_tops=10
+# python3 scrapper.py -n 199
 
-python scrapper.py -c $course -n $nb_tops
-python category.py -c $course -n $nb_tops
+for course in 'tiny' 'small' 'medium' 'large'
+do
+    echo $course
+    python3 category.py -c $course
+    echo
+done

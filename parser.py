@@ -1,9 +1,11 @@
+#!usr/bin/python3
+
 import json
 from collections import defaultdict
 
 
 def tops_positions(course):
-    filename = 'data_{}.json'.format(course)
+    filename = 'data/data_{}.json'.format(course)
     with open(filename, 'r') as json_data:
         dict_list = json.load(json_data)
         tortues = defaultdict(lambda: defaultdict(list))
@@ -37,9 +39,3 @@ def tortues_attr(course):
         vitesses(tortue)
         accelerations(tortue)
     return tortues
-
-def verification_top(tortues, nb_tops):
-    """fonction qui verifie que le nombre de tops scrappes correspond bien a celui souhaite"""
-    nb_scrap = tortues[0]['top'][-1] - tortues[0]['top'][0] + 1
-    if nb_scrap != nb_tops:
-        raise ValueError('nb_scrap=', nb_scrap, 'vs', 'nb_tops=', nb_tops)

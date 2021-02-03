@@ -1,6 +1,9 @@
+#!usr/bin/python3
+
 import parser
 from collections import Counter
 import argparse
+import json
 
 
 def est_reguliere(vitesses):
@@ -48,34 +51,39 @@ def categorie(tortue):
     else:
         return 'distraite', distraite(vitesses)
 
-def main(course, nb_tops):
+def main(course):
     tortues = parser.tortues_attr(course)
-    parser.verification_top(tortues, nb_tops)
     categories = []
     for i in tortues:
         tortue = tortues[i]
         cat = categorie(tortue)
-        categories.append(cat)
+        dict_tortue = {'id': i, 'categorie': cat[0], 'param': cat[1]}
+        categories.append(dict_tortue)
 
         # print(tortue['top'])
         # print(tortue['vitesse'])
         # print(tortue['acc'])
         # print(cat)
 
-    max_fenetre = max([cat[1]['fenetre'] for cat in categories if cat[0] == 'cyclique'])
-    print(max_fenetre)
+    filename = 'results/results_{}.json'.format(course)
+    with open(filename, 'w') as json_file:
+        json.dump(categories, json_file)
+
+    fenetres = [cat['param']['fenetre'] for cat in categories if cat['categorie'] == 'cyclique']
+    if fenetres:
+        max_fenetre = max(fenetres)
+        # print(max_fenetre)
 
     # stats repartition
-    stats = Counter([cat[0] for cat in categories])
+    stats = Counter([cat['categorie'] for cat in categories])
     print(stats)
 
 
 if __name__ == '__main__':
     """exemple de requete:
-    python category.py -c tiny -n 201
+    python category.py -c tiny
     """
     parse = argparse.ArgumentParser()
     parse.add_argument('-c', '--course', type=str, help="taille de la course (tiny, small, medium, large)")
-    parse.add_argument('-n', '--nb_tops', type=int, default=201, help="nombre de tops")
     args = parse.parse_args()
-    main(args.course, args.nb_tops)
+    main(args.course)
