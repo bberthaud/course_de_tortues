@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# python3 scrapper.py -n 199
+python3 scrapper.py -n 199
 
 for course in 'tiny' 'small' 'medium' 'large'
 do
