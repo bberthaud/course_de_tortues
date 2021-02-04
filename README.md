@@ -22,25 +22,25 @@ Disponibles sur le serveur `tortues.ecoquery.os.univ-lyon1.fr` au format JSON et
 
 Pour cela, nous avons utilisé les librairies *urllib.request* (pour les requêtes sur le serveur Web), *time* (pour le délai (*sleep*) entre les requêtes), et *json* (pour la mise au bon format).
 
-### tops
-
 On définit tout d'abord un nombre de tops à acquérir. Ce choix de tops est délicat à déterminer, car si l'on prend une valeur trop faible alors on manquera certaines périodicités (pour la catégorie *cycliques* par exemple) ou une décroissance de la vitesse jusqu'à 0 (pour les *fatiguées*). A l'inverse, une valeur de tops trop élevée va engendrer un temps de calcul important, et un stockage des séquences qui va alourdir notre environnement. La valeur finale de tops est discutée dans la phase 3 sur les tortues cycliques.
 
-### course
 
 On introduit une variable *course*, permettant de naviguer entre les 4 courses différentes.
 
 Ensuite, on va requêter le serveur Web un certain de nombre de fois (suivant valeur de *nb_tops*), en attendant 3 secondes entre chaque requête.
 A noter que le délai de 3 secondes est compté à partir du moment où l'on a terminé la précédente requête (et non commencé), car sinon un décalage va se créer en raison du délai de requêtage (peu élevé mais peut avoir des conséquences tout de même).
 
+
+Enfin, on introduit une fonction **verification_top** qui va vérifier si le nombre de tops recueillis est bien celui souhaité.
+
+
 ## Phase 2 : Parsage des données
 
 On a ensuite implémenté le programme **parser.py**. 
 L'objectif de celui-ci est de créer un nouveau dictionnaire de données, *tortues*, comprenant :
 * l'id de chaque tortue
-* pour chaque tortue, les positions, vitesses et accélérations associées à chaque top.
+* pour chaque tortue, les positions, vitesses et accélérations associées à chaque top. Ces vitesses et accélérations sont faites en calculant les dérivées (taux d'accroissement successifs pour être plus précis) des positions et vitesses pour chaque top.
 
-### calculs vitesse et accélérations 
 
 ## Phase 3 : Attribution des catégories
 
@@ -67,10 +67,10 @@ On peut ainsi retourner un fichier donnant pour chaque tortue (définie par son 
 
 A la fin, on vérifie que les proportions de chaque catégorie de tortues sont similaires. Puisqu'en théorie il y a équiprobabilité de tomber sur une des 4 catégories de tortue, d'où une répartition 1/4 pour chaque catégorie.
 
+On a fait afficher ces statistiques à la fin du code *category.py*.
+
 
 ## Exécution 
 
-### quel format pour le fichier de sortie 
-### todo: expliquer au prof comment il lance le programme 
-
-On indiquera le format de sortie de l’analyse avec suffisement de détails pour que le correcteur puisse vérifier les résultats obtenus.
+Pour exécuter notre programme, il suffit de lancer **main.sh**, qui va catégoriser les tortues pour les 4 courses différentes.
+En sortie, un fichier JSON est disponible par course, dans le dossier **results**.
