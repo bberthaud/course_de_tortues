@@ -56,7 +56,7 @@ Pour les détecter, on utilise la commande *Counter* qui permet de compter le no
 
 On peut ensuite passer aux tortues dites *cycliques*. Pour cela, on itère sur chaque top, et si l'on observe qu'une valeur de vitesse est identique à celle du premier top, alors on vérifie si le caractère cyclique est validé pour les tops suivants, jusqu'à atteindre un nombre de tops égal à la taille du premier cycle. De plus, on met une condition permettant de s'assurer que l'on observera bien 2 cycles consécutifs grâce au nombre de tops *nb_tops* attribué (par exemple, on ne peut pas conclure si une tortue est cyclique si on observe un cycle de taille 16, mais que l'on a *nb_tops* valant seulement 25). On retourne pour les tortues cycliques le cycle correspondant.
 
-A noter que la taille maximale observée pour le cycle est de 99 tops. Or pour détecter un cycle de taille n il est nécessaire de récupérer au moins 2n+1 tops (car avec 2n+1 tops on calcule 2n vitesses sur lesquelles on veut observer 2 cycles). Donc le nombre de tops retenu est 201 (on prend une marge de sécurité de 1 sur la taille du cycle).
+A noter que la taille maximale observée pour le cycle est de 99 tops. Or pour détecter un cycle de taille n il est nécessaire de récupérer au moins 2n+1 tops (car avec 2n+1 tops on calcule 2n vitesses sur lesquelles on veut observer 2 cycles). Donc **le nombre de tops retenu est 201** (on prend une marge de sécurité de 1 sur la taille du cycle).
 
 Enfin les tortues *distraites* sont les tortues qui ne correspondent pas aux conditions précédentes. Dans ce cas on retourne les vitesses minimales et maximales observées.
 
@@ -73,4 +73,8 @@ On a fait afficher ces statistiques à la fin du code *category.py*.
 ## Exécution 
 
 Pour exécuter notre programme, il suffit de lancer **main.sh**, qui va catégoriser les tortues pour les 4 courses différentes.
-En sortie, un fichier JSON est disponible par course, dans le dossier **results**.
+
+En sortie, un fichier JSON est disponible par course, dans le dossier **results**. Ceux-ci comportent, pour chaque course, les attributs suivants :
+* l'id de la tortue,
+* la catégorie attribuée,
+* les paramètres correspondants (*params*) : *cycle* et *fenetre* si la tortue est de type cyclique, *v_min* et *v_max* si la tortue est *distraite*, *v_initial* et *rythme_croissance* si elle est *fatiguée* et *v* pour les tortues *régulières*.
