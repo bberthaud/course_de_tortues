@@ -33,6 +33,8 @@ A noter que le délai de 3 secondes est compté à partir du moment où l'on a t
 
 Enfin, on introduit une fonction **verification_top** qui va vérifier si le nombre de tops recueillis est bien celui souhaité.
 
+Les données sont enfin stockées dans le dossier **data**.
+
 
 ## Phase 2 : Parsage des données
 
@@ -41,7 +43,6 @@ L'objectif de celui-ci est de créer un nouveau dictionnaire de données, *tortu
 * l'id de chaque tortue
 * pour chaque tortue, les positions, vitesses et accélérations associées à chaque top. Ces vitesses et accélérations sont obtenues en calculant les dérivées (taux d'accroissement successifs pour être plus précis) des positions et vitesses pour chaque top.
 
-Les données sont stockées dans le dossier **data**.
 
 
 ## Phase 3 : Attribution des catégories
